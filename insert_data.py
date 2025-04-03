@@ -11,7 +11,7 @@ INFLUXDB_ORG = os.getenv("INFLUXDB_ORG")
 INFLUXDB_BUCKET = os.getenv("INFLUXDB_BUCKET")
 
 # Conectar con InfluxDB
-client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
+client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG, verify_ssl=False) #Verify SSL a false es para que acepte los certificados autofirmados.
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
 # Cargar el dataset con fechas actualizadas a 2024

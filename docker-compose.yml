@@ -14,13 +14,18 @@ services:
     volumes:
       - influxdb-data:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
+      - ./certs/influxdb-cert.pem:/etc/ssl/influxdb-cert.pem
+      - ./certs/influxdb-key.pem:/etc/ssl/influxdb-key.pem
+    command: >
+      influxd --tls-cert /etc/ssl/influxdb-cert.pem --tls-key /etc/ssl/influxdb-key.pem
+
 
   ingestor:
     build: .
     depends_on:
       - influxdb
     environment:
-      INFLUXDB_URL: "http://influxdb:8086"
+      INFLUXDB_URL: "https://influxdb:8086"
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
       INFLUXDB_ORG: ${INFLUXDB_ORG}
       INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
