@@ -18,7 +18,11 @@ services:
       - ./certs/influxdb-key.pem:/etc/ssl/influxdb-key.pem
     command: >
       influxd --tls-cert /etc/ssl/influxdb-cert.pem --tls-key /etc/ssl/influxdb-key.pem
-
+    healthcheck:
+      test: ["CMD", "curl", "-k", "https://localhost:8086/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   ingestor:
     build: .
